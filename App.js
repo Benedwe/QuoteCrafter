@@ -8,36 +8,13 @@ import CustomQuoteModal from './components/CustomQuoteModal';
 import FavoritesScreen from './components/FavoritesScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
-// AdMob placeholders
-import { AdMobBanner, AdMobInterstitial, setTestDeviceIDAsync } from 'expo-ads-admob';
-import * as ExpoModulesCore from 'expo-modules-core';
-
-// Register the AdMob view manager
-ExpoModulesCore.registerModule('ExpoAdsAdMob', {
-  viewManager: {
-    BannerAd: {}
-  }
-});
-
 export default function App() {
   const [quote, setQuote] = useState(quotesData[0]);
   const [isDark, setIsDark] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const fade = useRef(new Animated.Value(1)).current;
-  // AdMob IDs (from your AdMob console)
-  const ADMOB_APP_ID = 'ca-app-pub-3651384611185558~1435778315';
-  const BANNER_AD_UNIT_ID = 'ca-app-pub-3651384611185558/9918533873';
-  const INTERSTITIAL_AD_UNIT_ID = null; // set to your interstitial id if you create one
-
-  useEffect(() => {
-    setTestDeviceIDAsync && setTestDeviceIDAsync('EMULATOR');
-    // Production AdMob IDs (replace interstitial with your real unit if available)
-    // Only set interstitial unit ID if it's provided
-    if (INTERSTITIAL_AD_UNIT_ID) {
-      AdMobInterstitial && AdMobInterstitial.setAdUnitID && AdMobInterstitial.setAdUnitID(INTERSTITIAL_AD_UNIT_ID);
-    }
-  }, []);
+  
 
   function randomQuote() {
     const idx = Math.floor(Math.random() * quotesData.length);
@@ -69,16 +46,7 @@ export default function App() {
 
   async function createCustom(q) {
     setQuote(q);
-    // show interstitial test ad occasionally
-    try {
-      if (INTERSTITIAL_AD_UNIT_ID) {
-        const ready = await AdMobInterstitial.getIsReadyAsync();
-        if (!ready) await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
-        await AdMobInterstitial.showAdAsync();
-      }
-    } catch (e) {
-      // ignore ad errors
-    }
+    
   }
 
   return (
@@ -104,11 +72,7 @@ export default function App() {
           <TouchableOpacity onPress={randomQuote} style={styles.controlBtn}><Text style={styles.controlText}>Random</Text></TouchableOpacity>
         </View>
 
-        <View style={styles.adContainer}>
-          {/* Banner ad using your ad unit id */}
-          <AdMobBanner bannerSize="smartBannerPortrait" adUnitID={BANNER_AD_UNIT_ID} servePersonalizedAds={true} />
-        </View>
-
+        
         <CustomQuoteModal visible={modalVisible} onClose={() => setModalVisible(false)} onCreate={createCustom} />
         {showFavorites && <FavoritesScreen onClose={() => setShowFavorites(false)} />}
       </SafeAreaView>
@@ -124,5 +88,5 @@ const styles = StyleSheet.create({
   controls: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 30 },
   controlBtn: { padding: 12, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 8 },
   controlText: { color: '#fff', fontWeight: '700' },
-  adContainer: { position: 'absolute', bottom: 0, left: 0, right: 0 }
+  
 });
