@@ -1,1 +1,14 @@
 node_modules
+.expo
+.expo/**
+.expo-shared
+.vscode
+.env
+npm-debug.log
+.DS_Store
+android/build/
+ios/Pods/
+ios/build/
+web-build/
+dist/
+/.expo/web/cache

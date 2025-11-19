@@ -19,18 +19,11 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3651384611185558~1435778315"
-      },
+      
       "permissions": []
-    },
-    "plugins": [
-      [
-        "expo-ads-admob",
-        {
-          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
-        }
-      ]
-    ]
+    }
   }
 }
+    
+    
+
