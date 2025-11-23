@@ -15,7 +15,6 @@
     "@unimodules/core": "^7.2.0",
     "@unimodules/react-native-adapter": "^6.5.0",
     "expo": "49.0.13",
-    "expo-ads-admob": "13.0.0",
     "expo-constants": "~14.4.2",
     "expo-file-system": "~15.4.5",
     "expo-linear-gradient": "12.3.0",
