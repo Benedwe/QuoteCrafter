@@ -8,21 +8,45 @@ import CustomQuoteModal from './components/CustomQuoteModal';
 import FavoritesScreen from './components/FavoritesScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
+
 export default function App() {
   const [quote, setQuote] = useState(quotesData[0]);
   const [isDark, setIsDark] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [allQuotes, setAllQuotes] = useState(quotesData);
   const fade = useRef(new Animated.Value(1)).current;
   
+  // Load user-created quotes on app start
+  useEffect(() => {
+    loadUserQuotes();
+  }, []);
+
+  async function loadUserQuotes() {
+    try {
+      const raw = await AsyncStorage.getItem('userQuotes');
+      const userQuotes = raw ? JSON.parse(raw) : [];
+      // Combine predefined quotes with user-created quotes
+      const combinedQuotes = [...quotesData, ...userQuotes];
+      setAllQuotes(combinedQuotes);
+      // Set initial quote if it's not already set
+      if (combinedQuotes.length > 0 && quote === quotesData[0]) {
+        const idx = Math.floor(Math.random() * combinedQuotes.length);
+        setQuote(combinedQuotes[idx]);
+      }
+    } catch (e) {
+      console.warn(e);
+      setAllQuotes(quotesData);
+    }
+  }
 
   function randomQuote() {
-    const idx = Math.floor(Math.random() * quotesData.length);
+    const idx = Math.floor(Math.random() * allQuotes.length);
     Animated.sequence([
       Animated.timing(fade, { toValue: 0, duration: 200, useNativeDriver: true }),
       Animated.timing(fade, { toValue: 1, duration: 300, useNativeDriver: true })
     ]).start();
-    setQuote(quotesData[idx]);
+    setQuote(allQuotes[idx]);
   }
 
   async function favorite() {
@@ -45,8 +69,23 @@ export default function App() {
   }
 
   async function createCustom(q) {
-    setQuote(q);
-    
+    try {
+      // Save the new quote to user quotes
+      const raw = await AsyncStorage.getItem('userQuotes');
+      const userQuotes = raw ? JSON.parse(raw) : [];
+      userQuotes.unshift(q);
+      await AsyncStorage.setItem('userQuotes', JSON.stringify(userQuotes));
+      
+      // Update the combined quotes list
+      const combinedQuotes = [...quotesData, ...userQuotes];
+      setAllQuotes(combinedQuotes);
+      
+      // Set the new quote as current
+      setQuote(q);
+    } catch (e) {
+      console.warn(e);
+      setQuote(q);
+    }
   }
 
   return (
@@ -71,7 +110,6 @@ export default function App() {
           <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.controlBtn}><Text style={styles.controlText}>Create</Text></TouchableOpacity>
           <TouchableOpacity onPress={randomQuote} style={styles.controlBtn}><Text style={styles.controlText}>Random</Text></TouchableOpacity>
         </View>
-
         
         <CustomQuoteModal visible={modalVisible} onClose={() => setModalVisible(false)} onCreate={createCustom} />
         {showFavorites && <FavoritesScreen onClose={() => setShowFavorites(false)} />}

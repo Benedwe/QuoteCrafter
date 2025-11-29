@@ -2,6 +2,13 @@
 
 A minimal React Native app that shows random motivational quotes.
 
+## Features
+
+- Display random motivational quotes
+- Create and share your own quotes with other users
+- Save favorite quotes
+- Dark/light theme toggle
+
 ## Development
 
 1. Install dependencies
