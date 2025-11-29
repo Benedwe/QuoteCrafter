@@ -32,7 +32,7 @@ Steps to Build and Deploy:
    - Version: 1.0.0
    - Package Name: com.quotecrafter.app
    - Icon: assets/icon.png
-   - Description: A minimal React Native app that displays random motivational quotes with favorites functionality and theme toggle.
+   - Description: A minimal React Native app that displays random motivational quotes. Users can create their own quotes which are shared with other users on the same device, and save favorite quotes.
 
 6. Submit to Aptoide Connect:
    - Visit connect.aptoide.com
@@ -52,8 +52,8 @@ If you encounter environment issues:
 
 App Features:
 -------------
-- Random motivational quotes display
-- Custom quote submission
+- Random motivational quotes display from both predefined and user-created quotes
+- Custom quote creation that is shared with other users on the same device
 - Favorites management with AsyncStorage
 - Dark/light theme toggle
 

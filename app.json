@@ -4,7 +4,12 @@
     "slug": "quotecrafter",
     "version": "1.0.0",
     "sdkVersion": "49.0.0",
-    "platforms": ["ios", "android", "web"],
+    "runtimeVersion": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "orientation": "portrait",
     "backgroundColor": "#ffffff",
     "icon": "./assets/icon.png",
@@ -20,10 +25,20 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [],
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": ""
+        }
+      }
     },
     "ios": {
       "bundleIdentifier": "com.quotecrafter.app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4382b6ee-c714-447d-a384-44ba079d451b"
+      }
     }
   }
 }

@@ -39,4 +39,4 @@ eas build -p android --profile production
 
 4. Visit [Aptoide Connect](https://connect.aptoide.com) and upload the APK
 
-See `Aptoide_Deployment_Guide.txt` for detailed instructions.
+See `Aptoide_Deployment_Guide.md` for detailed instructions.
